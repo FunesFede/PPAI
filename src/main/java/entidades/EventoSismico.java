@@ -118,9 +118,13 @@ public class EventoSismico {
         return filas;
     }
 
-    public boolean sosAutoDetectado() {
-        return this.estadoActual.sosAutoDetectado();
-    }
+public boolean sosAutoDetectado() {
+    boolean resultado = this.estadoActual != null && this.estadoActual.sosAutoDetectado();
+    System.out.println("📊 Evento " + this.getFechaHoraOcurrencia() + 
+                       " - Estado: " + (estadoActual != null ? estadoActual.getNombreEstado() : "null") + 
+                       " - Es autodetectado? " + resultado);
+    return resultado;
+}
 
     public Date fechaHoraFin() {
         return this.fechaHoraFin;

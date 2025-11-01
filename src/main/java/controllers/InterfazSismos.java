@@ -59,7 +59,10 @@ public class InterfazSismos {
 
     @FXML
     void initialize() {
-        this.gestor = new GestorRevision(this);
+        // Solo crear el gestor si no existe
+        if (this.gestor == null) {
+            this.gestor = new GestorRevision(this);
+        }
         this.gestor.nuevaRevision();
     }
 

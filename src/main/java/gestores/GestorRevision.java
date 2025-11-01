@@ -3,20 +3,20 @@ package gestores;
 import controllers.InterfazSismos;
 import entidades.*;
 import entidades.estado.Autodetectado;
-import entidades.estado.Estado;
+// import entidades.estado.Estado;
+import utilities.Sismos;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class GestorRevision {
     private Sesion sesionActual;
-    private ArrayList<Estado> estados;
+    // private ArrayList<Estado> estados;
     private ArrayList<EventoSismico> eventosSismicos;
     private ArrayList<EstacionSismologica> estacionesSismologicas;
     private ArrayList<Sismografo> sismografos;
     private ArrayList<SerieTemporal> seriesTemporales;
     private InterfazSismos interfaz;
-
     private EventoSismico eventoSismicoSeleccionado;
 
     public GestorRevision(InterfazSismos interfaz) {
@@ -36,19 +36,14 @@ public class GestorRevision {
         seriesTemporales.add(new SerieTemporal(sismografos.getFirst()));
         seriesTemporales.add(new SerieTemporal(sismografos.get(1)));
 
-        eventosSismicos = new ArrayList<>();
+        eventosSismicos = new ArrayList<>(Sismos.eventosSismicos);
 
-        EventoSismico evento1 = new EventoSismico(new Date(2025-1900, 4, 2, 19, 35), 300.625, 400.355, 600.500, 600.811, 1.6, new ClasificacionSismo(61.0, 300.0, "Intermedio"), new Autodetectado(), new OrigenDeGeneracion("Sismo generado en la interplaca", "Sismo Interplaca"), new AlcanceSismo("alcance uno", "Sismo Local"));
-        EventoSismico evento2 = new EventoSismico(new Date(2025-1900, 3, 15, 20, 35), 500.625, 600.355, 700.500, 700.811, 1.8, new ClasificacionSismo(0.0, 60.0, "Superficial"), new Autodetectado(), new OrigenDeGeneracion("Sismo generado por la explosión de minas", "Sismo Explosión Minas"), new AlcanceSismo("alcance dos", "Sismo Regional"));
+        eventosSismicos.get(0).addSerieTemporal(seriesTemporales.getFirst());
+        eventosSismicos.get(0).addSerieTemporal(seriesTemporales.get(1));
 
-        evento1.addSerieTemporal(seriesTemporales.getFirst());
-        evento1.addSerieTemporal(seriesTemporales.get(1));
+        eventosSismicos.get(1).addSerieTemporal(seriesTemporales.getFirst());
+        eventosSismicos.get(1).addSerieTemporal(seriesTemporales.get(1));
 
-        evento2.addSerieTemporal(seriesTemporales.getFirst());
-        evento2.addSerieTemporal(seriesTemporales.get(1));
-
-        eventosSismicos.add(evento1);
-        eventosSismicos.add(evento2);
     }
 
     public void nuevaRevision() {

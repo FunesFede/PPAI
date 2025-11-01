@@ -27,6 +27,7 @@ public class BloqueadoEnRevision extends Estado {
         CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoRechazado, responsable);
         cambiosEstado.add(nuevoCambioEstado);
         eventoSismico.setCambioEstado(cambiosEstado);
+        eventoSismico.setEstadoActual(nuevoRechazado);
     }
 
     @Override
@@ -43,6 +44,7 @@ public class BloqueadoEnRevision extends Estado {
         CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoConfirmado);
         cambiosEstados.add(nuevoCambioEstado);
         eventoSismico.setCambioEstado(cambiosEstados);
+        eventoSismico.setEstadoActual(nuevoConfirmado);
     }
 
     @Override
@@ -59,5 +61,6 @@ public class BloqueadoEnRevision extends Estado {
         CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoDerivadoExperto);
         cambiosEstados.add(nuevoCambioEstado);
         eventoSismico.setCambioEstado(cambiosEstados);
+        eventoSismico.setEstadoActual(nuevoDerivadoExperto);
     }
 }

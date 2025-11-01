@@ -22,11 +22,12 @@ public class Autodetectado extends Estado {
                 cambioEstado.setFechaHoraFin(fechaHora);
                 break;
             }
-            BloqueadoEnRevision nuevoBloqueadoEnRevision = new BloqueadoEnRevision();
-            CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoBloqueadoEnRevision, responsable);
-            cambiosEstado.add(nuevoCambioEstado);
-            eventoSismico.setCambioEstado(cambiosEstado);
         }
+        BloqueadoEnRevision nuevoBloqueadoEnRevision = new BloqueadoEnRevision();
+        CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoBloqueadoEnRevision, responsable);
+        cambiosEstado.add(nuevoCambioEstado);
+        eventoSismico.setCambioEstado(cambiosEstado);
+        eventoSismico.setEstadoActual(nuevoBloqueadoEnRevision);
     }
 
     @Override
