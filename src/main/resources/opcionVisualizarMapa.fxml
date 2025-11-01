@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="156.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OpcionVisualizarMapaController">
+   <children>
+      <Label fx:id="labelVisualizar" layoutX="181.0" layoutY="40.0" prefHeight="41.0" prefWidth="224.0" text="¿Desea visualizar el mapa?">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnNoVerMapa" layoutX="164.0" layoutY="87.0" mnemonicParsing="false" onAction="#tomarNoVerMapa" text="No" />
+      <Button fx:id="btnVerMapa" layoutX="379.0" layoutY="87.0" mnemonicParsing="false" onAction="#tomarVerMapa" text="Si" />
+   </children>
+</AnchorPane>

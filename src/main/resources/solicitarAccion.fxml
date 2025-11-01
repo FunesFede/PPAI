@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="164.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SolicitarAccionController">
+   <children>
+      <Label fx:id="labelAccion" layoutX="168.0" layoutY="35.0" prefHeight="62.0" prefWidth="263.0" text="Por favor seleccione una accion a realizar">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="comboSeleccionOpcion" layoutX="139.0" layoutY="84.0" onAction="#onSeleccionOpcion" prefHeight="26.0" prefWidth="322.0" promptText="Seleccione una accion..." />
+   </children>
+</AnchorPane>
