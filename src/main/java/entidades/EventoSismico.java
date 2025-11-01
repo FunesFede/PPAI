@@ -74,6 +74,7 @@ public class EventoSismico {
         catch (Exception e) {e.getMessage();}
     }
 
+    @Deprecated
     public void confirmar(Date fecha, Estado nuevoEstado, Empleado responsable) {
         this.estadoActual = nuevoEstado;
         for (CambioEstado cambio : this.cambioEstado) {
@@ -85,6 +86,12 @@ public class EventoSismico {
         this.cambioEstado.add(new CambioEstado(fecha, nuevoEstado, responsable));
     }
 
+    public void confirmar(Empleado responsable) {
+        try{this.estadoActual.confirmar(responsable, this);}
+        catch(Exception e) {e.getMessage();}
+    }
+
+    @Deprecated
     public void solicitarRevision(Date fecha, Estado nuevoEstado, Empleado responsable) {
         this.estadoActual = nuevoEstado;
         for (CambioEstado cambio : this.cambioEstado) {
@@ -94,6 +101,11 @@ public class EventoSismico {
             }
         }
         this.cambioEstado.add(new CambioEstado(fecha, nuevoEstado, responsable));
+    }
+
+    public void solicitarRevision(Empleado responsable) {
+        try{this.estadoActual.solicitarRevision(responsable, this);}
+        catch(Exception e){e.getMessage();}
     }
 
     public ArrayList<String[]> tomarInfoSeries() {

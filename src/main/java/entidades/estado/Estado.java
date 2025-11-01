@@ -4,41 +4,26 @@ import java.util.Date;
 
 import entidades.Empleado;
 import entidades.EventoSismico;
+import javafx.event.Event;
 
 public class Estado {
-    private String ambito;
-    private String nombreEstado;
-    
+    protected String nombreEstado;
+        
     public Estado() {
-    }
-    
-    public Estado(String ambito, String nombreEstado) {
-        this.ambito = ambito;
-        this.nombreEstado = nombreEstado;
+        this.nombreEstado = "Estado";
     }
 
-    public boolean sosAutoDetectado() {
-        return this.nombreEstado.equalsIgnoreCase("auto detectado");
-    }
+    // public boolean sosAutoDetectado() {
+    //     return this.nombreEstado.equalsIgnoreCase("auto detectado");
+    // }
 
-    public boolean sosRechazado() {
-        return this.nombreEstado.equalsIgnoreCase("rechazado");
-    }
+    // public boolean sosRechazado() {
+    //     return this.nombreEstado.equalsIgnoreCase("rechazado");
+    // }
 
-    public boolean sosAmbitoEventoSismico() {
-        return this.ambito.equalsIgnoreCase("evento sismico");
-    }
-
-    public boolean sosBloqueadoEnRevision() {
-        return this.nombreEstado.equalsIgnoreCase("bloqueado en revision");
-    }
-
-    public String getAmbito() {
-        return this.ambito;
-    }
-    public void setAmbito(String ambito) {
-        this.ambito = ambito;
-    }
+    // public boolean sosBloqueadoEnRevision() {
+    //     return this.nombreEstado.equalsIgnoreCase("bloqueado en revision");
+    // }
 
     public String getNombreEstado() {
         return this.nombreEstado;
@@ -47,24 +32,36 @@ public class Estado {
         this.nombreEstado = nombreEstado;
     }
 
-    public boolean sosConfirmado() {
-        return this.nombreEstado.equalsIgnoreCase("confirmado");
-    }
+    // public boolean sosConfirmado() {
+    //     return this.nombreEstado.equalsIgnoreCase("confirmado");
+    // }
 
-    public boolean sosDerivadoAExperto() {
-        return this.nombreEstado.equalsIgnoreCase("derivado a experto");
-    }
+    // public boolean sosDerivadoAExperto() {
+    //     return this.nombreEstado.equalsIgnoreCase("derivado a experto");
+    // }
 
     public void rechazar(Empleado responsable, EventoSismico eventoSismico) throws Exception {
         throw new Exception("No es posible cambiar de estado a rechazado");
     }
 
     public void revisar(Empleado responsable, EventoSismico eventoSismico) throws Exception {
-        throw new Exception("No es posible cambiar de estado a bloqueadoEnRevision");
+        throw new Exception("No es posible cambiar de estado a Bloqueado En Revision");
+    }
+
+    public void confirmar(Empleado responsable, EventoSismico eventoSismico) throws Exception {
+        throw new Exception("No es posible cambiar de estado a Confirmado");
+    }
+
+    public void solicitarRevision(Empleado responsable, EventoSismico eventoSismico) throws Exception {
+        throw new Exception("No es posible cambiar de estado a Derivado A Experto");
     }
 
     public Date obtenerFechaHoraActual() {
         return new Date();
+    }
+
+    public boolean sosAutoDetectado() {
+        return false;
     }
 
 }

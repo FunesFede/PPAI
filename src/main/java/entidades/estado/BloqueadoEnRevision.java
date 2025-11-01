@@ -9,8 +9,8 @@ import entidades.EventoSismico;
 
 public class BloqueadoEnRevision extends Estado {
 
-    public BloqueadoEnRevision(String ambito, String nombreEstado) {
-        super(ambito, nombreEstado);
+    public BloqueadoEnRevision() {
+        this.nombreEstado = "Bloqueado en revision";
     }
 
     @Override
@@ -22,12 +22,42 @@ public class BloqueadoEnRevision extends Estado {
                 cambioEstado.setFechaHoraFin(fechaHora);
                 break;
             }
-            Rechazado nuevoRechazado = new Rechazado(this.getAmbito(), "rechazado");
-            CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoRechazado, responsable);
-            cambiosEstado.add(nuevoCambioEstado);
-            eventoSismico.setCambioEstado(cambiosEstado);
         }
-        
+        Rechazado nuevoRechazado = new Rechazado();
+        CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoRechazado, responsable);
+        cambiosEstado.add(nuevoCambioEstado);
+        eventoSismico.setCambioEstado(cambiosEstado);
+    }
 
+    @Override
+    public void confirmar(Empleado responsable, EventoSismico eventoSismico) {
+        Date fechaHora = obtenerFechaHoraActual();
+        ArrayList<CambioEstado> cambiosEstados = eventoSismico.getCambioEstado();
+        for(CambioEstado cambioEstado : cambiosEstados) {
+            if (cambioEstado.sosActual()) {
+                cambioEstado.setFechaHoraFin(fechaHora);
+                break;
+            }
+        }
+        Confirmado nuevoConfirmado = new Confirmado();
+        CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoConfirmado);
+        cambiosEstados.add(nuevoCambioEstado);
+        eventoSismico.setCambioEstado(cambiosEstados);
+    }
+
+    @Override
+    public void solicitarRevision(Empleado responsable, EventoSismico eventoSismico) {
+        Date fechaHora = obtenerFechaHoraActual();
+        ArrayList<CambioEstado> cambiosEstados = eventoSismico.getCambioEstado();
+        for(CambioEstado cambioEstado : cambiosEstados) {
+            if (cambioEstado.sosActual()) {
+                cambioEstado.setFechaHoraFin(fechaHora);
+                break;
+            }
+        }
+        DerivadoExperto nuevoDerivadoExperto = new DerivadoExperto();
+        CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoDerivadoExperto);
+        cambiosEstados.add(nuevoCambioEstado);
+        eventoSismico.setCambioEstado(cambiosEstados);
     }
 }

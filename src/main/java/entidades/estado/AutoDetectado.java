@@ -7,10 +7,10 @@ import entidades.CambioEstado;
 import entidades.Empleado;
 import entidades.EventoSismico;
 
-public class AutoDetectado extends Estado {
+public class Autodetectado extends Estado {
 
-    public AutoDetectado(String ambito, String nombreEstado) {
-        super(ambito, nombreEstado);
+    public Autodetectado() {
+        this.nombreEstado = "Autodetectado";
     }
 
     @Override
@@ -22,10 +22,15 @@ public class AutoDetectado extends Estado {
                 cambioEstado.setFechaHoraFin(fechaHora);
                 break;
             }
-            BloqueadoEnRevision nuevoBloqueadoEnRevision = new BloqueadoEnRevision(this.getAmbito(), "bloqueado en revision");
+            BloqueadoEnRevision nuevoBloqueadoEnRevision = new BloqueadoEnRevision();
             CambioEstado nuevoCambioEstado = new CambioEstado(fechaHora, nuevoBloqueadoEnRevision, responsable);
             cambiosEstado.add(nuevoCambioEstado);
             eventoSismico.setCambioEstado(cambiosEstado);
         }
+    }
+
+    @Override
+    public boolean sosAutoDetectado() {
+        return true;
     }
 }

@@ -2,6 +2,7 @@ package gestores;
 
 import controllers.InterfazSismos;
 import entidades.*;
+import entidades.estado.Autodetectado;
 import entidades.estado.Estado;
 
 import java.util.ArrayList;
@@ -22,12 +23,6 @@ public class GestorRevision {
         this.interfaz = interfaz;
 
         sesionActual = new Sesion(new Date(), new Usuario("responsable1", "123456", new Empleado("Perez", "Juan", "juanperez@mail.com", "456789", new Rol("Responsable de revisiones de eventos sismicos", "Analista Sismos"))));
-        estados = new ArrayList<>();
-        estados.add(new Estado("Evento Sismico", "Auto Detectado"));
-        estados.add(new Estado("Evento Sismico", "Bloqueado en Revision"));
-        estados.add(new Estado("Evento Sismico", "Rechazado"));
-        estados.add(new Estado("Evento Sismico", "Confirmado"));
-        estados.add(new Estado("Evento Sismico", "Derivado a Experto"));
 
         estacionesSismologicas = new ArrayList<>();
         estacionesSismologicas.add(new EstacionSismologica("E1", "Estacion 1", 300.600, 700.500));
@@ -43,8 +38,8 @@ public class GestorRevision {
 
         eventosSismicos = new ArrayList<>();
 
-        EventoSismico evento1 = new EventoSismico(new Date(2025-1900, 4, 2, 19, 35), 300.625, 400.355, 600.500, 600.811, 1.6, new ClasificacionSismo(61.0, 300.0, "Intermedio"), this.estados.get(0), new OrigenDeGeneracion("Sismo generado en la interplaca", "Sismo Interplaca"), new AlcanceSismo("alcance uno", "Sismo Local"));
-        EventoSismico evento2 = new EventoSismico(new Date(2025-1900, 3, 15, 20, 35), 500.625, 600.355, 700.500, 700.811, 1.8, new ClasificacionSismo(0.0, 60.0, "Superficial"), this.estados.get(0), new OrigenDeGeneracion("Sismo generado por la explosión de minas", "Sismo Explosión Minas"), new AlcanceSismo("alcance dos", "Sismo Regional"));
+        EventoSismico evento1 = new EventoSismico(new Date(2025-1900, 4, 2, 19, 35), 300.625, 400.355, 600.500, 600.811, 1.6, new ClasificacionSismo(61.0, 300.0, "Intermedio"), new Autodetectado(), new OrigenDeGeneracion("Sismo generado en la interplaca", "Sismo Interplaca"), new AlcanceSismo("alcance uno", "Sismo Local"));
+        EventoSismico evento2 = new EventoSismico(new Date(2025-1900, 3, 15, 20, 35), 500.625, 600.355, 700.500, 700.811, 1.8, new ClasificacionSismo(0.0, 60.0, "Superficial"), new Autodetectado(), new OrigenDeGeneracion("Sismo generado por la explosión de minas", "Sismo Explosión Minas"), new AlcanceSismo("alcance dos", "Sismo Regional"));
 
         evento1.addSerieTemporal(seriesTemporales.getFirst());
         evento1.addSerieTemporal(seriesTemporales.get(1));
@@ -90,17 +85,17 @@ public class GestorRevision {
         return new Date();
     }
 
-    private Estado buscarBloqueadoEnRevision() {
-        Estado estadoBloqueadoEnRevision = null;
-        for (Estado estado: this.estados) {
-            if (estado.sosAmbitoEventoSismico()) {
-                if (estado.sosBloqueadoEnRevision()) {
-                    estadoBloqueadoEnRevision = estado;
-                }
-            }
-        }
-        return estadoBloqueadoEnRevision;
-    }
+    // private Estado buscarBloqueadoEnRevision() {
+    //     Estado estadoBloqueadoEnRevision = null;
+    //     for (Estado estado: this.estados) {
+    //         if (estado.sosAmbitoEventoSismico()) {
+    //             if (estado.sosBloqueadoEnRevision()) {
+    //                 estadoBloqueadoEnRevision = estado;
+    //             }
+    //         }
+    //     }
+    //     return estadoBloqueadoEnRevision;
+    // }
 
     // @Deprecated
     // private void bloquearEventoSismico() {
@@ -175,17 +170,17 @@ public class GestorRevision {
         return this.sesionActual.obtenerAnalistaSismosLogueado();
     }
 
-    private Estado buscarEstadoRechazado() {
-        Estado estadoRechazado = null;
-        for (Estado estado: this.estados) {
-            if (estado.sosAmbitoEventoSismico()) {
-                if (estado.sosRechazado()) {
-                    estadoRechazado = estado;
-                }
-            }
-        }
-        return estadoRechazado;
-    }
+    // private Estado buscarEstadoRechazado() {
+    //     Estado estadoRechazado = null;
+    //     for (Estado estado: this.estados) {
+    //         if (estado.sosAmbitoEventoSismico()) {
+    //             if (estado.sosRechazado()) {
+    //                 estadoRechazado = estado;
+    //             }
+    //         }
+    //     }
+    //     return estadoRechazado;
+    // }
 
     private boolean validarExistenciaDatos() {
         return this.eventoSismicoSeleccionado != null && this.eventoSismicoSeleccionado.getValorMagnitud() != 0 && this.eventoSismicoSeleccionado.getAlcanceSismo() != null && this.eventoSismicoSeleccionado.getOrigenGeneracion() != null;
@@ -218,29 +213,35 @@ public class GestorRevision {
         }
     }
 
+    // @Deprecated
+    // private void confirmarEvento() {
+    //     Date fechaHoraActual = this.getFechaHoraActual();
+    //     Estado estadoConfirmado = this.buscarEstadoConfirmado();
+
+    //     Empleado responsable = this.obtenerAnalistaSismosLogueado();
+
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+
+    //     this.eventoSismicoSeleccionado.confirmar(fechaHoraActual, estadoConfirmado, responsable);
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+    // }
+
     private void confirmarEvento() {
-        Date fechaHoraActual = this.getFechaHoraActual();
-        Estado estadoConfirmado = this.buscarEstadoConfirmado();
-
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
-
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
-
-        this.eventoSismicoSeleccionado.confirmar(fechaHoraActual, estadoConfirmado, responsable);
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+        this.eventoSismicoSeleccionado.confirmar(responsable);
     }
 
-    private Estado buscarEstadoConfirmado() {
-        Estado estadoConfirmado = null;
-        for (Estado estado: this.estados) {
-            if (estado.sosAmbitoEventoSismico()) {
-                if (estado.sosConfirmado()) {
-                    estadoConfirmado = estado;
-                }
-            }
-        }
-        return estadoConfirmado;
-    }
+    // private Estado buscarEstadoConfirmado() {
+    //     Estado estadoConfirmado = null;
+    //     for (Estado estado: this.estados) {
+    //         if (estado.sosAmbitoEventoSismico()) {
+    //             if (estado.sosConfirmado()) {
+    //                 estadoConfirmado = estado;
+    //             }
+    //         }
+    //     }
+    //     return estadoConfirmado;
+    // }
 
     public boolean tomarAccionConfirmar() {
         if (this.validarExistenciaDatos()) {
@@ -260,27 +261,36 @@ public class GestorRevision {
         }
     }
 
-    private void solicitarRevisionEvento() {
-        Date fechaHoraActual = this.getFechaHoraActual();
-        Estado estadoDerivadoAExperto = this.buscarEstadoDerivadoAExperto();
+    // @Deprecated
+    // private void solicitarRevisionEvento() {
+    //     Date fechaHoraActual = this.getFechaHoraActual();
+    //     Estado estadoDerivadoAExperto = this.buscarEstadoDerivadoAExperto();
 
+    //     Empleado responsable = this.obtenerAnalistaSismosLogueado();
+
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+
+    //     this.eventoSismicoSeleccionado.solicitarRevision(fechaHoraActual, estadoDerivadoAExperto, responsable);
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+    // }
+
+    public void solicitarRevisionEvento() {
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
-
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
-
-        this.eventoSismicoSeleccionado.solicitarRevision(fechaHoraActual, estadoDerivadoAExperto, responsable);
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+        this.eventoSismicoSeleccionado.solicitarRevision(responsable);
     }
 
-    private Estado buscarEstadoDerivadoAExperto() {
-        Estado estadoDerivadoAExperto = null;
-        for (Estado estado: this.estados) {
-            if (estado.sosAmbitoEventoSismico()) {
-                if (estado.sosDerivadoAExperto()) {
-                    estadoDerivadoAExperto = estado;
-                }
-            }
-        }
-        return estadoDerivadoAExperto;
-    }
+
+
+//     private Estado buscarEstadoDerivadoAExperto() {
+//         Estado estadoDerivadoAExperto = null;
+//         for (Estado estado: this.estados) {
+//             if (estado.sosAmbitoEventoSismico()) {
+//                 if (estado.sosDerivadoAExperto()) {
+//                     estadoDerivadoAExperto = estado;
+//                 }
+//             }
+//         }
+//         return estadoDerivadoAExperto;
+//     }
+
 }
