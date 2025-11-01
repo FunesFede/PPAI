@@ -1,9 +1,17 @@
-package entidades;
+package entidades.estado;
+
+import java.util.Date;
+
+import entidades.Empleado;
+import entidades.EventoSismico;
 
 public class Estado {
     private String ambito;
     private String nombreEstado;
-
+    
+    public Estado() {
+    }
+    
     public Estado(String ambito, String nombreEstado) {
         this.ambito = ambito;
         this.nombreEstado = nombreEstado;
@@ -46,4 +54,17 @@ public class Estado {
     public boolean sosDerivadoAExperto() {
         return this.nombreEstado.equalsIgnoreCase("derivado a experto");
     }
+
+    public void rechazar(Empleado responsable, EventoSismico eventoSismico) throws Exception {
+        throw new Exception("No es posible cambiar de estado a rechazado");
+    }
+
+    public void revisar(Empleado responsable, EventoSismico eventoSismico) throws Exception {
+        throw new Exception("No es posible cambiar de estado a bloqueadoEnRevision");
+    }
+
+    public Date obtenerFechaHoraActual() {
+        return new Date();
+    }
+
 }

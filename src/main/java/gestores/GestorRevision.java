@@ -2,6 +2,7 @@ package gestores;
 
 import controllers.InterfazSismos;
 import entidades.*;
+import entidades.estado.Estado;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,10 +102,16 @@ public class GestorRevision {
         return estadoBloqueadoEnRevision;
     }
 
+    // @Deprecated
+    // private void bloquearEventoSismico() {
+    //     Date fechaHoraActual = this.getFechaHoraActual();
+    //     Estado estadoBloqueadoEnRevision = this.buscarBloqueadoEnRevision();
+    //     this.eventoSismicoSeleccionado.revisar(fechaHoraActual, estadoBloqueadoEnRevision);
+    // }
+
     private void bloquearEventoSismico() {
-        Date fechaHoraActual = this.getFechaHoraActual();
-        Estado estadoBloqueadoEnRevision = this.buscarBloqueadoEnRevision();
-        this.eventoSismicoSeleccionado.revisar(fechaHoraActual, estadoBloqueadoEnRevision);
+        Empleado empleadoLogueado = this.obtenerAnalistaSismosLogueado();
+        this.eventoSismicoSeleccionado.revisar(empleadoLogueado);
     }
 
     private String tomarAlcance() {
@@ -161,7 +168,7 @@ public class GestorRevision {
     }
 
     public void tomarOpcionNoModificar() {
-       this.interfaz.solicitarAccion();
+        this.interfaz.solicitarAccion();
     }
 
     private Empleado obtenerAnalistaSismosLogueado() {
@@ -184,16 +191,22 @@ public class GestorRevision {
         return this.eventoSismicoSeleccionado != null && this.eventoSismicoSeleccionado.getValorMagnitud() != 0 && this.eventoSismicoSeleccionado.getAlcanceSismo() != null && this.eventoSismicoSeleccionado.getOrigenGeneracion() != null;
     }
 
+    // @Deprecated
+    // private void rechazarEvento() {
+    //     Date fechaHoraActual = this.getFechaHoraActual();
+    //     Estado estadoRechazado = this.buscarEstadoRechazado();
+    //     System.out.println("Estado rechazado: " + estadoRechazado.getNombreEstado());
+    //     Empleado responsable = this.obtenerAnalistaSismosLogueado();
+
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+
+    //     this.eventoSismicoSeleccionado.rechazar(fechaHoraActual, estadoRechazado, responsable);
+    //     System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+    // }
+
     private void rechazarEvento() {
-        Date fechaHoraActual = this.getFechaHoraActual();
-        Estado estadoRechazado = this.buscarEstadoRechazado();
-        System.out.println("Estado rechazado: " + estadoRechazado.getNombreEstado());
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
-
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
-
-        this.eventoSismicoSeleccionado.rechazar(fechaHoraActual, estadoRechazado, responsable);
-        System.out.println(this.eventoSismicoSeleccionado.getEstadoActual().getNombreEstado());
+        this.eventoSismicoSeleccionado.rechazar(responsable);
     }
 
     public boolean tomarAccionRechazarEvento() {

@@ -3,6 +3,8 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Date;
 
+import entidades.estado.Estado;
+
 public class CambioEstado {
     private Date fechaHoraFin;
     private Date fechaHoraInicio;

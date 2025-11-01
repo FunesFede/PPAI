@@ -3,6 +3,8 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Date;
 
+import entidades.estado.Estado;
+
 public class EventoSismico {
     private Date fechaHoraFin;
     private Date fechaHoraOcurrencia;
@@ -38,6 +40,7 @@ public class EventoSismico {
         this.cambioEstado.add(new CambioEstado(fechaHoraOcurrencia, estadoActual));
     }
 
+    @Deprecated
     public void revisar(Date fecha, Estado nuevoEstado) {
         this.estadoActual = nuevoEstado;
         for (CambioEstado cambio : this.cambioEstado) {
@@ -49,6 +52,12 @@ public class EventoSismico {
         this.cambioEstado.add(new CambioEstado(fecha, this.estadoActual));
     }
 
+    public void revisar(Empleado empleadoLogueado) {
+        try{this.estadoActual.revisar(empleadoLogueado, this);}
+        catch(Exception e) {e.getMessage();}
+    }
+
+    @Deprecated
     public void rechazar(Date fecha, Estado nuevoEstado, Empleado responsable) {
         this.estadoActual = nuevoEstado;
         for (CambioEstado cambio : this.cambioEstado) {
@@ -58,6 +67,11 @@ public class EventoSismico {
             }
         }
         this.cambioEstado.add(new CambioEstado(fecha, nuevoEstado, responsable));
+    }
+
+    public void rechazar(Empleado responsable) {
+        try {this.estadoActual.rechazar(responsable, this);}
+        catch (Exception e) {e.getMessage();}
     }
 
     public void confirmar(Date fecha, Estado nuevoEstado, Empleado responsable) {
