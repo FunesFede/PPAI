@@ -7,9 +7,9 @@ import entidades.CambioEstado;
 import entidades.Empleado;
 import entidades.EventoSismico;
 
-public class Autodetectado extends Estado {
+public class AutoDetectado extends Estado {
 
-    public Autodetectado() {
+    public AutoDetectado() {
         this.nombreEstado = "Autodetectado";
     }
 
@@ -17,7 +17,7 @@ public class Autodetectado extends Estado {
     public void revisar(Empleado responsable, EventoSismico eventoSismico) {
         Date fechaHora = obtenerFechaHoraActual();
         ArrayList<CambioEstado> cambiosEstado = eventoSismico.getCambioEstado();
-        for(CambioEstado cambioEstado : cambiosEstado ) {
+        for (CambioEstado cambioEstado : cambiosEstado) {
             if (cambioEstado.sosActual()) {
                 cambioEstado.setFechaHoraFin(fechaHora);
                 break;
