@@ -121,7 +121,33 @@ INSERT INTO permiso (descripcion, nombre) VALUES
     ('Administrar sistema', 'Administrar');
 
 -- ========================================
--- 13. USUARIOS
+-- 13. PERFILES
+-- ========================================
+INSERT INTO perfil (descripcion, nombre) VALUES
+    ('Perfil de analista con permisos de revisión', 'Perfil Analista'),
+    ('Perfil de experto con permisos extendidos', 'Perfil Experto'),
+    ('Perfil de administrador del sistema', 'Perfil Admin');
+
+-- ========================================
+-- 14. RELACIÓN PERFIL-PERMISO (Tabla intermedia)
+-- ========================================
+-- Perfil Analista (1) tiene permisos: Revisar(1), Confirmar(2)
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (1, 1);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (1, 2);
+
+-- Perfil Experto (2) tiene permisos: Revisar(1), Confirmar(2), Anular(3)
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (2, 1);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (2, 2);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (2, 3);
+
+-- Perfil Admin (3) tiene todos los permisos
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (3, 1);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (3, 2);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (3, 3);
+INSERT INTO perfil_permiso (perfil_id, permiso_id) VALUES (3, 4);
+
+-- ========================================
+-- 15. USUARIOS
 -- ========================================
 INSERT INTO usuario (nombre_usuario, contrasena, empleado_id) VALUES
     ('mgonzalez', 'pass123', 1),
@@ -130,26 +156,28 @@ INSERT INTO usuario (nombre_usuario, contrasena, empleado_id) VALUES
     ('alopez', 'pass123', 4);
 
 -- ========================================
--- 14. PERFILES (asociación Usuario-Permiso)
+-- 16. RELACIÓN USUARIO-PERFIL (Tabla intermedia)
 -- ========================================
-INSERT INTO perfil (usuario_id, permiso_id) VALUES
-    (1, 1),
-    (1, 2),
-    (2, 1),
-    (2, 2),
-    (3, 1),
-    (3, 2),
-    (3, 3),
-    (4, 4);
+-- María González (1) tiene Perfil Analista (1)
+INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (1, 1);
+
+-- Juan Rodríguez (2) tiene Perfil Analista (1)
+INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (2, 1);
+
+-- Carlos Martínez (3) tiene Perfil Experto (2)
+INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (3, 2);
+
+-- Ana López (4) tiene Perfil Admin (3)
+INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (4, 3);
 
 -- ========================================
--- 15. SESIONES (Sesión activa para testing)
+-- 17. SESIONES (Sesión activa para testing)
 -- ========================================
 INSERT INTO sesion (fecha_hora_inicio, fecha_hora_fin, usuario_id) VALUES
     ('2024-11-13 08:00:00.000', NULL, 1);
 
 -- ========================================
--- 16. ESTACIONES SISMOLÓGICAS
+-- 18. ESTACIONES SISMOLÓGICAS
 -- ========================================
 INSERT INTO estacion_sismologica (codigo_estacion, nombre, longitud, latitud) VALUES
     ('PLATA', 'La Plata', -57.9536, -34.9205),
@@ -159,7 +187,7 @@ INSERT INTO estacion_sismologica (codigo_estacion, nombre, longitud, latitud) VA
     ('USHUA', 'Ushuaia', -68.3029, -54.8019);
 
 -- ========================================
--- 17. SISMÓGRAFOS (con timestamps completos)
+-- 19. SISMÓGRAFOS (con timestamps completos)
 -- ========================================
 INSERT INTO sismografo (identificador_sismografo, nro_serie, fecha_adquisicion, estacion_sismologica_id, modelo_sismografo_id) VALUES
     ('PLATA-S1', 'SN-2020-001', '2020-01-15 10:00:00.000', 1, 1);
@@ -177,7 +205,7 @@ INSERT INTO sismografo (identificador_sismografo, nro_serie, fecha_adquisicion, 
     ('USHUA-S1', 'SN-2022-001', '2022-07-22 08:00:00.000', 5, 1);
 
 -- ========================================
--- 18. EVENTOS SÍSMICOS AUTO-DETECTADOS
+-- 20. EVENTOS SÍSMICOS AUTO-DETECTADOS
 -- ========================================
 
 INSERT INTO evento_sismico (fecha_hora_ocurrencia, latitud_epicentro, latitud_hipocentro, longitud_epicentro, longitud_hipocentro, valor_magnitud, alcance_sismo_id, clasificacion_sismo_id, magnitud_ritcher_id, origen_de_generacion_id, estado_id) VALUES 
@@ -196,7 +224,7 @@ INSERT INTO evento_sismico (fecha_hora_ocurrencia, latitud_epicentro, latitud_hi
     ('2024-11-12 22:10:18.000', -34.9205, -34.9205, -57.9536, -57.9536, 3.0, 1, 1, 3, 2, 1);
 
 -- ========================================
--- 19. SERIES TEMPORALES
+-- 21. SERIES TEMPORALES
 -- ========================================
 
 INSERT INTO serie_temporal (evento_sismico_id, sismografo_id) VALUES (1, 4);
@@ -212,7 +240,7 @@ INSERT INTO serie_temporal (evento_sismico_id, sismografo_id) VALUES (5, 1);
 INSERT INTO serie_temporal (evento_sismico_id, sismografo_id) VALUES (5, 2);
 
 -- ========================================
--- 20. MUESTRAS SÍSMICAS
+-- 22. MUESTRAS SÍSMICAS
 -- ========================================
 
 INSERT INTO muestra_sismica (fecha_hora_muestra, serie_temporal_id) VALUES ('2024-11-10 14:23:45.000', 1);
@@ -229,7 +257,7 @@ INSERT INTO muestra_sismica (fecha_hora_muestra, serie_temporal_id) VALUES ('202
 INSERT INTO muestra_sismica (fecha_hora_muestra, serie_temporal_id) VALUES ('2024-11-11 08:15:32.000', 4);
 
 -- ========================================
--- 21. DETALLES DE MUESTRAS SÍSMICAS
+-- 23. DETALLES DE MUESTRAS SÍSMICAS
 -- ========================================
 
 INSERT INTO detalle_muestra_sismica (valor, tipo_de_dato_id, muestra_sismica_id) VALUES (0.65, 1, 1);
@@ -245,7 +273,7 @@ INSERT INTO detalle_muestra_sismica (valor, tipo_de_dato_id, muestra_sismica_id)
 INSERT INTO detalle_muestra_sismica (valor, tipo_de_dato_id, muestra_sismica_id) VALUES (8.5, 5, 2);
 
 -- ========================================
--- 22. CAMBIOS DE ESTADO INICIALES
+-- 24. CAMBIOS DE ESTADO INICIALES
 -- ========================================
 
 INSERT INTO cambio_estado (fecha_hora_inicio, estado_id, evento_sismico_id) VALUES ('2024-11-10 14:23:45.000', 1, 1);

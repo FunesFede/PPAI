@@ -3,9 +3,6 @@
 -- Sistema de Gestión de Eventos Sísmicos
 -- ========================================
 
--- Nota: SQLite creará automáticamente las tablas con hibernate.hbm2ddl.auto=update
--- Este script es de referencia y para poblar datos iniciales
-
 -- ========================================
 -- TABLAS DE CATÁLOGO / CLASIFICACIÓN
 -- ========================================
@@ -93,19 +90,41 @@ CREATE TABLE IF NOT EXISTS empleado (
 CREATE TABLE IF NOT EXISTS permiso (
     permiso_id INTEGER PRIMARY KEY AUTOINCREMENT,
     descripcion VARCHAR(255),
-    nombre VARCHAR(100) NOT NULL,
-    perfil_id INTEGER,
-    FOREIGN KEY (perfil_id) REFERENCES perfil(perfil_id)
+    nombre VARCHAR(100) NOT NULL
 );
 
 -- Tabla: perfil
 CREATE TABLE IF NOT EXISTS perfil (
     perfil_id INTEGER PRIMARY KEY AUTOINCREMENT,
     descripcion VARCHAR(255),
-    nombre VARCHAR(100) NOT NULL,
-    usuario_id INTEGER,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id)
+    nombre VARCHAR(100) NOT NULL
 );
+
+-- ========================================
+-- TABLAS INTERMEDIAS (MANY-TO-MANY)
+-- ========================================
+
+-- Tabla intermedia: usuario_perfil (Usuario <-> Perfil)
+CREATE TABLE IF NOT EXISTS usuario_perfil (
+    usuario_id INTEGER NOT NULL,
+    perfil_id INTEGER NOT NULL,
+    PRIMARY KEY (usuario_id, perfil_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id) ON DELETE CASCADE,
+    FOREIGN KEY (perfil_id) REFERENCES perfil(perfil_id) ON DELETE CASCADE
+);
+
+-- Tabla intermedia: perfil_permiso (Perfil <-> Permiso)
+CREATE TABLE IF NOT EXISTS perfil_permiso (
+    perfil_id INTEGER NOT NULL,
+    permiso_id INTEGER NOT NULL,
+    PRIMARY KEY (perfil_id, permiso_id),
+    FOREIGN KEY (perfil_id) REFERENCES perfil(perfil_id) ON DELETE CASCADE,
+    FOREIGN KEY (permiso_id) REFERENCES permiso(permiso_id) ON DELETE CASCADE
+);
+
+-- ========================================
+-- TABLAS DE ESTACIONES Y SUSCRIPCIONES
+-- ========================================
 
 -- Tabla: estacion_sismologica
 CREATE TABLE IF NOT EXISTS estacion_sismologica (
@@ -165,7 +184,12 @@ CREATE TABLE IF NOT EXISTS modelo_sismografo (
 CREATE TABLE IF NOT EXISTS motivo_fuera_servicio (
     motivo_fuera_servicio_id INTEGER PRIMARY KEY AUTOINCREMENT,
     comentario TEXT,
-    motivo_tipo INTEGER  -- Nota: En tu código tiene tipo MotivoTipo (enum?)
+    fecha_hora_inicio TIMESTAMP,
+    fecha_hora_fin TIMESTAMP,
+    motivo_tipo_id INTEGER,
+    sismografo_id INTEGER,
+    FOREIGN KEY (motivo_tipo_id) REFERENCES motivo_tipo(motivo_tipo_id),
+    FOREIGN KEY (sismografo_id) REFERENCES sismografo(sismografo_id)
 );
 
 -- Tabla: sismografo
@@ -174,8 +198,10 @@ CREATE TABLE IF NOT EXISTS sismografo (
     fecha_adquisicion TIMESTAMP,
     identificador_sismografo VARCHAR(50) NOT NULL,
     nro_serie VARCHAR(100),
-    estado_id INTEGER,
-    FOREIGN KEY (estado_id) REFERENCES estado(estado_id)
+    estacion_sismologica_id INTEGER,
+    modelo_sismografo_id INTEGER,
+    FOREIGN KEY (estacion_sismologica_id) REFERENCES estacion_sismologica(estacion_sismologica_id),
+    FOREIGN KEY (modelo_sismografo_id) REFERENCES modelo_sismografo(modelo_sismografo_id)
 );
 
 -- Tabla: cambio_estado (para sismógrafos y eventos)
@@ -267,3 +293,7 @@ CREATE INDEX IF NOT EXISTS idx_cambio_estado_sismografo ON cambio_estado(sismogr
 CREATE INDEX IF NOT EXISTS idx_usuario_nombre ON usuario(nombre_usuario);
 CREATE INDEX IF NOT EXISTS idx_serie_temporal_sismografo ON serie_temporal(sismografo_id);
 CREATE INDEX IF NOT EXISTS idx_muestra_sismica_serie ON muestra_sismica(serie_temporal_id);
+CREATE INDEX IF NOT EXISTS idx_usuario_perfil_usuario ON usuario_perfil(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_usuario_perfil_perfil ON usuario_perfil(perfil_id);
+CREATE INDEX IF NOT EXISTS idx_perfil_permiso_perfil ON perfil_permiso(perfil_id);
+CREATE INDEX IF NOT EXISTS idx_perfil_permiso_permiso ON perfil_permiso(permiso_id);
