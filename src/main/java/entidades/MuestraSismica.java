@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import utilities.RepositorioDatos;
 
 @Entity
 @Table(name = "muestra_sismica")
@@ -36,9 +37,21 @@ public class MuestraSismica {
     public MuestraSismica(Date fechaHoraMuestra) {
         this.fechaHoraMuestra = fechaHoraMuestra;
         this.detalleMuestraSismica = new ArrayList<>();
-        detalleMuestraSismica.add(new DetalleMuestraSismica(45.5, new TipoDeDato("Velocidad Onda", "m/s", 30.0)));
-        detalleMuestraSismica.add(new DetalleMuestraSismica(500.0, new TipoDeDato("Frecuencia Onda", "mhz", 30.0)));
-        detalleMuestraSismica.add(new DetalleMuestraSismica(155.0, new TipoDeDato("Longitud", "m", 30.0)));
+        
+        // Busca los TipoDeDato que existen en la BD
+        TipoDeDato tipoVelocidad = RepositorioDatos.buscarPorId(TipoDeDato.class, 2); // ID 2 = Velocidad
+        TipoDeDato tipoFrecuencia = RepositorioDatos.buscarPorId(TipoDeDato.class, 4); // ID 4 = Frecuencia
+        TipoDeDato tipoDesplazamiento = RepositorioDatos.buscarPorId(TipoDeDato.class, 3); // ID 3 = Desplazamiento
+
+        if (tipoVelocidad != null) {
+            detalleMuestraSismica.add(new DetalleMuestraSismica(45.5, tipoVelocidad));
+        }
+        if (tipoFrecuencia != null) {
+            detalleMuestraSismica.add(new DetalleMuestraSismica(500.0, tipoFrecuencia));
+        }
+        if (tipoDesplazamiento != null) {
+            detalleMuestraSismica.add(new DetalleMuestraSismica(155.0, tipoDesplazamiento));
+        }
     }
 
     public void crearDetalleMuestra(Double valor, TipoDeDato tipoDeDato) {
@@ -53,14 +66,14 @@ public class MuestraSismica {
         String longitud = "N/A";
 
         for (DetalleMuestraSismica detalle : this.detalleMuestraSismica) {
-            String tipo = detalle.getTipoDeDato().getDenominacion(); // CAMBIAR METODO
+            String tipo = detalle.getTipoDeDato().getDenominacion();
             String valor = detalle.getDatos();
 
-            if (tipo.equalsIgnoreCase("Velocidad Onda")) {
+            if (tipo.equalsIgnoreCase("Velocidad")) {
                 velocidad = valor;
-            } else if (tipo.equalsIgnoreCase("Frecuencia Onda")) {
+            } else if (tipo.equalsIgnoreCase("Frecuencia")) {
                 frecuencia = valor;
-            } else if (tipo.equalsIgnoreCase("Longitud")) {
+            } else if (tipo.equalsIgnoreCase("Desplazamiento")) {
                 longitud = valor;
             }
         }

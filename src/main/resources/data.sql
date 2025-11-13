@@ -171,7 +171,7 @@ INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (3, 2);
 INSERT INTO usuario_perfil (usuario_id, perfil_id) VALUES (4, 3);
 
 -- ========================================
--- 17. SESIONES (Sesión activa para testing)
+-- 17. SESIONES
 -- ========================================
 INSERT INTO sesion (fecha_hora_inicio, fecha_hora_fin, usuario_id) VALUES
     ('2024-11-13 08:00:00.000', NULL, 1);

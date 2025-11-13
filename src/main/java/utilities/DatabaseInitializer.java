@@ -8,25 +8,17 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Clase para inicializar la base de datos con datos de prueba
- */
+//Para inicializar con datos de prueba
 public class DatabaseInitializer {
 
     private static final String DB_URL = "jdbc:sqlite:ppai.db";
 
-    /**
-     * Ejecuta el script SQL directamente usando JDBC (no JPA)
-     * porque SQLite tiene problemas con transacciones múltiples en JPA
-     */
     private static void ejecutarScriptSQL() {
         System.out.println("Cargando datos iniciales desde data.sql...");
         
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
             
             // Leer el archivo SQL
             InputStream is = DatabaseInitializer.class.getClassLoader()
@@ -86,9 +78,7 @@ public class DatabaseInitializer {
         }
     }
 
-    /**
-     * Verifica si la base de datos está vacía
-     */
+
     private static boolean baseDeDatosVacia() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
@@ -104,9 +94,6 @@ public class DatabaseInitializer {
         }
     }
 
-    /**
-     * Imprime estadísticas de la base de datos
-     */
     private static void imprimirEstadisticas() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
@@ -135,9 +122,6 @@ public class DatabaseInitializer {
         }
     }
 
-    /**
-     * Inicializa la base de datos si está vacía
-     */
     public static void inicializarSiEsNecesario() {
         System.out.println("Verificando estado de la base de datos...");
         
@@ -151,10 +135,6 @@ public class DatabaseInitializer {
         }
     }
 
-    /**
-     * Fuerza la recarga de datos (útil para testing)
-     * ⚠️ CUIDADO: Esto elimina todos los datos existentes
-     */
     public static void reinicializarBaseDeDatos() {
         System.out.println("⚠️ REINICIALIZANDO BASE DE DATOS...");
         

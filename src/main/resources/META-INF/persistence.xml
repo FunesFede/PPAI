@@ -8,13 +8,6 @@
     <persistence-unit name="PPAI-PU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
-        <!-- Aquí puedes listar tus entidades manualmente (opcional) -->
-        <!-- 
-        <class>entidades.EventoSismico</class>
-        <class>entidades.EstacionSismologica</class>
-        <class>entidades.Sismografo</class>
-        -->
-        
         <properties>
             <!-- Configuración de la conexión a SQLite -->
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC"/>

@@ -48,8 +48,6 @@ public class SerieTemporal {
         this.sismografo = sismografo;
 
         muestrasSismica = new ArrayList<>();
-        muestrasSismica.add(new MuestraSismica(new Date(2025-1900, 0, 15, 12, 0)));
-        muestrasSismica.add(new MuestraSismica(new Date(2025-1900, 0, 15, 12, 2)));
     }
 
     public String obtenerNombreEstacion() {

@@ -24,9 +24,6 @@ public class GestorRevision {
         cargarDatosDesdeBaseDeDatos();
     }
     
-    /**
-     * Carga todos los datos necesarios desde la base de datos
-     */
     private void cargarDatosDesdeBaseDeDatos() {
         // Cargar la sesión activa (última sesión sin fecha_hora_fin)
         this.sesionActual = RepositorioDatos.cargarSesionActiva();
@@ -38,7 +35,7 @@ public class GestorRevision {
                 this.sesionActual.getUsuario().getEmpleado().getApellido() + ")");
         } else {
             System.out.println("⚠ No hay sesión activa - creando sesión de prueba...");
-            // Si no hay sesión, crear una de prueba (para desarrollo)
+            // Ya no pasa, le agrege una sesion en los datos
             crearSesionPrueba();
         }
         
@@ -65,9 +62,6 @@ public class GestorRevision {
             sismografos.size() + " sismógrafos");
     }
 
-        /**
-     * Crea una sesión de prueba cuando no existe ninguna activa
-     */
     private void crearSesionPrueba() {
         Usuario usuarioPrueba = RepositorioDatos.cargarUsuarioPorNombre("mgonzalez");
         if (usuarioPrueba != null) {
@@ -112,9 +106,9 @@ public class GestorRevision {
         return eventosSismicos;
     }
 
-    private Date getFechaHoraActual() {
-        return new Date();
-    }
+    // private Date getFechaHoraActual() {
+    //     return new Date();
+    // }
 
     // private Estado buscarBloqueadoEnRevision() {
     // Estado estadoBloqueadoEnRevision = null;

@@ -1,7 +1,6 @@
 package controllers;
 
 import application.App;
-import gestores.GestorRevision;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

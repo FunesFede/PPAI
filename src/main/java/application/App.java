@@ -1,7 +1,6 @@
 // En App.java
 package application;
 
-import gestores.GestorRevision;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +13,6 @@ import utilities.Paths;
 public class App extends Application {
     public static App app;
     private Stage stageWindow;
-    private GestorRevision gestor;
 
     public static void main(String[] args) {
         launch(args);

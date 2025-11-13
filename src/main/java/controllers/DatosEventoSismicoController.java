@@ -7,16 +7,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class DatosEventoSismicoController {
@@ -87,10 +82,4 @@ public class DatosEventoSismicoController {
         tableSeries.refresh();
     }
 
-
-
-    private static String extraerValor(String medicion) {
-        String[] partes = medicion.split(" ");
-        return partes[partes.length - 2] + partes[partes.length - 1];
-    }
 }

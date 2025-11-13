@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
-import javafx.event.Event;
 import lombok.Data;
 
 
