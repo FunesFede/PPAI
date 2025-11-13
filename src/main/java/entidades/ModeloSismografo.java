@@ -26,6 +26,8 @@ public class ModeloSismografo {
     @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
 
+    public ModeloSismografo() {}
+
     public ModeloSismografo(String caracteristicas, String nombreModelo, Fabricante fabricante) {
         this.caracteristicas = caracteristicas;
         this.nombreModelo = nombreModelo;

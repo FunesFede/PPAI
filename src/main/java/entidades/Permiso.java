@@ -21,6 +21,8 @@ public class Permiso {
     @Column(name = "nombre")
     private String nombre;
 
+    public Permiso() {}
+
     public Permiso(String descripcion, String nombre) {
         this.descripcion = descripcion;
         this.nombre = nombre;

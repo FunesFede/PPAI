@@ -2,12 +2,15 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
 
 import entidades.estado.Estado;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -61,17 +64,19 @@ public class EventoSismico {
     @JoinColumn(name = "estado_id")
     private Estado estadoActual;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "evento_sismico_id")
-    private ArrayList<CambioEstado> cambioEstado;
+    private List<CambioEstado> cambioEstado;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "evento_sismico_id")
-    private ArrayList<SerieTemporal> seriesTemporales;
+    private List<SerieTemporal> seriesTemporales;
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado analistaSuperior;
+
+    public EventoSismico() {}
 
     public EventoSismico(Date fechaHoraOcurrencia, double latitudEpicentro, double latitudHipocentro, double longitudEpicentro, double longitudHipocentro, double valorMagnitud, ClasificacionSismo clasificacion, Estado estadoActual, OrigenDeGeneracion origenGeneracion, AlcanceSismo alcanceSismo) {
         this.fechaHoraOcurrencia = fechaHoraOcurrencia;
@@ -261,10 +266,10 @@ public boolean sosAutoDetectado() {
         this.estadoActual = estadoActual;
     }
 
-    public ArrayList<CambioEstado> getCambioEstado() {
+    public List<CambioEstado> getCambioEstado() {
         return cambioEstado;
     }
-    public void setCambioEstado(ArrayList<CambioEstado> cambioEstado) {
+    public void setCambioEstado(List<CambioEstado> cambioEstado) {
         this.cambioEstado = cambioEstado;
     }
 
@@ -282,7 +287,7 @@ public boolean sosAutoDetectado() {
         this.analistaSuperior = analistaSuperior;
     }
 
-    public ArrayList<SerieTemporal> getSeriesTemporales() {
+    public List<SerieTemporal> getSeriesTemporales() {
         return seriesTemporales;
     }
     public void setSerieTemporal(ArrayList<SerieTemporal> serieTemporal) {

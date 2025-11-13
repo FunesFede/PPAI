@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,7 +30,7 @@ public class Usuario {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "usuario_id")
-    private ArrayList<Perfil> perfil;
+    private List<Perfil> perfil;
 
     @ManyToOne
     @JoinColumn(name = "suscripcion_id")
@@ -38,6 +39,8 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;
+
+    public Usuario() {}
 
     public Usuario(String nombreUsuario, String contrasena, Empleado empleado) {
         this.nombreUsuario = nombreUsuario;
@@ -67,7 +70,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public ArrayList<Perfil> getPerfil() {
+    public List<Perfil> getPerfil() {
         return new ArrayList<>(this.perfil);
     }
     public void addPerfil(Perfil perfil) {

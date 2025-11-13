@@ -23,6 +23,8 @@ public class TipoDeDato {
     @Column(name = "valor_umbral")
     private Double valorUmbral;
 
+    public TipoDeDato() {}
+
     public TipoDeDato(String denominacion, String nombreUnidadMedida, Double valorUmbral) {
         this.denominacion = denominacion;
         this.nombreUnidadMedida = nombreUnidadMedida;

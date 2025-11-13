@@ -30,6 +30,8 @@ public class Sesion {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    public Sesion() {}
+
     public Sesion(Date fechaHoraInicio, Usuario usuario) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.usuario = usuario;

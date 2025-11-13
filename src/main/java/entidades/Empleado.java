@@ -31,6 +31,8 @@ public class Empleado {
     @JoinColumn(name = "rol_id")
     private Rol rol;
 
+    public Empleado() {}
+
     public Empleado(String apellido, String nombre, String mail, String telefono, Rol rol) {
         this.apellido = apellido;
         this.nombre = nombre;

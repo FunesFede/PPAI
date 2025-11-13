@@ -24,6 +24,8 @@ public class ClasificacionSismo {
     @Column(name = "nombre")
     private String nombre;
 
+    public ClasificacionSismo() {}
+
     public ClasificacionSismo(Double kmProdundidadDesde, Double kmProdundidadHasta, String nombre) {
         this.kmProdundidadDesde = kmProdundidadDesde;
         this.kmProdundidadHasta = kmProdundidadHasta;

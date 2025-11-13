@@ -20,6 +20,8 @@ public class MagnitudRitcher {
     @Column(name = "numero")
     private Double numero;
 
+    public MagnitudRitcher() {}
+
     public MagnitudRitcher(String descripcionMagnitud, Double numero) {
         this.descripcionMagnitud = descripcionMagnitud;
         this.numero = numero;

@@ -35,6 +35,8 @@ public class EstacionSismologica {
     @Column(name = "nro_certificacion_adquisicion")
     private String nroCertificacionAdquisicion;
 
+    public EstacionSismologica() {}
+
     public EstacionSismologica(String codigoEstacion, String nombre, Double longitud, Double latitud) {
         this.codigoEstacion = codigoEstacion;
         this.nombre = nombre;

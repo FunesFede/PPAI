@@ -18,6 +18,8 @@ public class MotivoTipo {
     @Column(name = "descripcion")
     private String descripcion;
 
+    public MotivoTipo() {}
+
     public MotivoTipo(String descripcion) {
         this.descripcion = descripcion;
     }

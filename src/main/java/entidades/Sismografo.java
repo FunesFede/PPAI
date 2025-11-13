@@ -2,6 +2,7 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import entidades.estado.Estado;
 import jakarta.persistence.CascadeType;
@@ -37,11 +38,11 @@ public class Sismografo {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sismografo_id")
-    private ArrayList<CambioEstado> cambioEstado;
+    private List<CambioEstado> cambioEstado;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sismografo_id")
-    private ArrayList<SerieTemporal> serieTemporal;
+    private List<SerieTemporal> serieTemporal;
 
     @ManyToOne
     @JoinColumn(name = "modelo_sismografo_id")
@@ -51,6 +52,8 @@ public class Sismografo {
     @JoinColumn(name = "estacion_sismologica_id")
     private EstacionSismologica estacionSismologica;
     // private Reparacion reparacion;
+
+    public Sismografo() {}
 
     public  Sismografo(Date fechaAdquisicion, String identificadorSismografo, String nroSerie, EstacionSismologica estacionSismologica) {
         this.fechaAdquisicion = fechaAdquisicion;
@@ -93,7 +96,7 @@ public class Sismografo {
         this.estadoActual = estadoActual;
     }
 
-    public ArrayList<CambioEstado> getCambioEstado() {
+    public List<CambioEstado> getCambioEstado() {
         return cambioEstado;
     }
     public void addCambioEstado(CambioEstado cambioEstado) {
@@ -110,7 +113,7 @@ public class Sismografo {
         this.modeloSismografo = modeloSismografo;
     }
 
-    public ArrayList<SerieTemporal> getSerieTemporal() {
+    public List<SerieTemporal> getSerieTemporal() {
         return serieTemporal;
     }
     public void addSerieTemporal(SerieTemporal nuevaSerieTemporal) {

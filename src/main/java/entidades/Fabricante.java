@@ -21,6 +21,8 @@ public class Fabricante {
     @Column(name = "razon_social")
     private String razonSocial;
 
+    public Fabricante() {}
+
     public Fabricante(String nombre, String razonSocial) {
         this.nombre = nombre;
         this.razonSocial = razonSocial;

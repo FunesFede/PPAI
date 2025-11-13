@@ -2,10 +2,12 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,13 +34,15 @@ public class SerieTemporal {
     @Column(name = "frecuencia_muestreo")
     private Double frecuenciaMuestreo;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
     @JoinColumn(name = "serie_temporal_id")
-    private ArrayList<MuestraSismica> muestrasSismica;
+    private List<MuestraSismica> muestrasSismica;
 
     @ManyToOne
     @JoinColumn(name = "sismografo_id")
     private Sismografo sismografo;
+
+    public SerieTemporal() {}
 
     public SerieTemporal(Sismografo sismografo) {
         this.sismografo = sismografo;

@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utilities.DatabaseInitializer;
+import utilities.JPAUtil;
 import utilities.Paths;
 
 public class App extends Application {
@@ -33,8 +35,15 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        DatabaseInitializer.inicializarSiEsNecesario();
+
         app = this;
         this.stageWindow = stage;
         setScene(Paths.BIENVENIDA); // Ajustar según tus paths
+    }
+
+    @Override
+    public void stop() {
+        JPAUtil.closeEntityManagerFactory();
     }
 }

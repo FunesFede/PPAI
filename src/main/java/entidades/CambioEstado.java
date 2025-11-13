@@ -39,6 +39,8 @@ public class CambioEstado {
     @JoinColumn(name = "empleado_id")
     private Empleado responsableInspeccion;
 
+    public CambioEstado() {}
+
     public CambioEstado(Date fechaHoraInicio, Estado estado) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.estado = estado;

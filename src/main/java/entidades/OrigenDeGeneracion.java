@@ -21,6 +21,8 @@ public class OrigenDeGeneracion {
     @Column(name = "nombre")
     private String nombre;
 
+    public OrigenDeGeneracion() {}
+
     public OrigenDeGeneracion(String descripcion, String nombre) {
         this.descripcion = descripcion;
         this.nombre = nombre;

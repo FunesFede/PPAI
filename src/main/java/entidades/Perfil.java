@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,9 +29,11 @@ public class Perfil {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "perfil_id")
-    private ArrayList<Permiso> permisos;
+    private List<Permiso> permisos;
 
-    public Perfil(String descripcion, String nombre, ArrayList<Permiso> permisos) {
+    public Perfil() {}
+
+    public Perfil(String descripcion, String nombre, List<Permiso> permisos) {
         this.descripcion = descripcion;
         this.nombre = nombre;
         this.permisos = permisos;
@@ -52,7 +55,7 @@ public class Perfil {
         this.nombre = nombre;
     }
 
-    public ArrayList<Permiso> getPermisos() {
+    public List<Permiso> getPermisos() {
         return permisos;
     }
     public void addPermisos(Permiso permiso) {

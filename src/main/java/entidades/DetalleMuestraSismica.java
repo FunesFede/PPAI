@@ -27,6 +27,8 @@ public class DetalleMuestraSismica {
     @JoinColumn(name = "tipo_de_dato_id")
     private TipoDeDato tipoDeDato;
 
+    public DetalleMuestraSismica() {}
+
     public DetalleMuestraSismica(Double valor, TipoDeDato tipoDeDato) {
         this.valor = valor;
         this.tipoDeDato = tipoDeDato;

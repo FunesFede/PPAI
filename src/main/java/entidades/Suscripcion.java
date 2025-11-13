@@ -28,6 +28,8 @@ public class Suscripcion {
     @JoinColumn(name = "estacion_sismologica_id")
     private EstacionSismologica estacionSismologica;
 
+    public Suscripcion() {}
+
     public Suscripcion(Date fechaHoraInicio, EstacionSismologica estacionSismologica) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.estacionSismologica = estacionSismologica;

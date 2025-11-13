@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -17,8 +19,12 @@ public class MotivoFueraServicio {
     private Integer id;
     @Column(name = "comentario")
     private String comentario;
-    @Column(name = "motivo_tipo")
+
+    @ManyToOne
+    @JoinColumn(name = "motivo_tipo_id")
     private MotivoTipo motivoTipo;
+
+    public MotivoFueraServicio() {}
 
     public MotivoFueraServicio(String comentario, MotivoTipo motivoTipo) {
         this.comentario = comentario;

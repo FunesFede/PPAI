@@ -2,10 +2,12 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,9 +27,11 @@ public class MuestraSismica {
     @Column(name = "fecha_hora_muestra")
     private Date fechaHoraMuestra;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
     @JoinColumn(name = "muestra_sismica_id")
-    private ArrayList<DetalleMuestraSismica> detalleMuestraSismica;
+    private List<DetalleMuestraSismica> detalleMuestraSismica;
+
+    public MuestraSismica() {}
 
     public MuestraSismica(Date fechaHoraMuestra) {
         this.fechaHoraMuestra = fechaHoraMuestra;
@@ -71,7 +75,7 @@ public class MuestraSismica {
     public void setFechaHoraMuestra(Date fechaHoraMuestra) {
         this.fechaHoraMuestra = fechaHoraMuestra;
     }
-    public ArrayList<DetalleMuestraSismica> getDetalleMuestraSismica() {
+    public List<DetalleMuestraSismica> getDetalleMuestraSismica() {
         return detalleMuestraSismica;
     }
     public void removeDetalleMuestra(DetalleMuestraSismica detalleMuestraSismica) {

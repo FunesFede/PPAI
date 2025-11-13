@@ -2,9 +2,7 @@ package gestores;
 
 import controllers.InterfazSismos;
 import entidades.*;
-//import entidades.estado.AutoDetectado;
-// import entidades.estado.Estado;
-import utilities.Sismos;
+import utilities.RepositorioDatos;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,33 +19,63 @@ public class GestorRevision {
 
     public GestorRevision(InterfazSismos interfaz) {
         this.interfaz = interfaz;
+        
+        // Cargar datos desde la base de datos
+        cargarDatosDesdeBaseDeDatos();
+    }
+    
+    /**
+     * Carga todos los datos necesarios desde la base de datos
+     */
+    private void cargarDatosDesdeBaseDeDatos() {
+        // Cargar la sesión activa (última sesión sin fecha_hora_fin)
+        this.sesionActual = RepositorioDatos.cargarSesionActiva();
+        
+        if (this.sesionActual != null) {
+            System.out.println("✓ Sesión iniciada: Usuario '" + 
+                this.sesionActual.getUsuario().getNombreUsuario() + 
+                "' (" + this.sesionActual.getUsuario().getEmpleado().getNombre() + " " +
+                this.sesionActual.getUsuario().getEmpleado().getApellido() + ")");
+        } else {
+            System.out.println("⚠ No hay sesión activa - creando sesión de prueba...");
+            // Si no hay sesión, crear una de prueba (para desarrollo)
+            crearSesionPrueba();
+        }
+        
+        // Cargar catálogos y datos principales
+        this.estacionesSismologicas = new ArrayList<>(
+            RepositorioDatos.cargarEstacionesSismologicas()
+        );
+        
+        this.sismografos = new ArrayList<>(
+            RepositorioDatos.cargarSismografos()
+        );
+        
+        this.seriesTemporales = new ArrayList<>(
+            RepositorioDatos.cargarSeriesTemporales()
+        );
+        
+        this.eventosSismicos = new ArrayList<>(
+            RepositorioDatos.cargarEventosSismicos()
+        );
+        
+        System.out.println("✓ Datos cargados: " + 
+            eventosSismicos.size() + " eventos sísmicos, " +
+            estacionesSismologicas.size() + " estaciones, " +
+            sismografos.size() + " sismógrafos");
+    }
 
-        sesionActual = new Sesion(new Date(),
-                new Usuario("responsable1", "123456", new Empleado("Perez", "Juan", "juanperez@mail.com", "456789",
-                        new Rol("Responsable de revisiones de eventos sismicos", "Analista Sismos"))));
-
-        estacionesSismologicas = new ArrayList<>();
-        estacionesSismologicas.add(new EstacionSismologica("E1", "Estacion 1", 300.600, 700.500));
-        estacionesSismologicas.add(new EstacionSismologica("E2", "Estacion 2", 300.600, 700.500));
-
-        sismografos = new ArrayList<>();
-        sismografos.add(
-                new Sismografo(new Date(2015 - 1900, 0, 15), "S1", "12345678910", estacionesSismologicas.getFirst()));
-        sismografos
-                .add(new Sismografo(new Date(2015 - 1900, 0, 15), "S2", "12345678910", estacionesSismologicas.get(1)));
-
-        seriesTemporales = new ArrayList<>();
-        seriesTemporales.add(new SerieTemporal(sismografos.getFirst()));
-        seriesTemporales.add(new SerieTemporal(sismografos.get(1)));
-
-        eventosSismicos = new ArrayList<>(Sismos.eventosSismicos);
-
-        eventosSismicos.get(0).addSerieTemporal(seriesTemporales.getFirst());
-        eventosSismicos.get(0).addSerieTemporal(seriesTemporales.get(1));
-
-        eventosSismicos.get(1).addSerieTemporal(seriesTemporales.getFirst());
-        eventosSismicos.get(1).addSerieTemporal(seriesTemporales.get(1));
-
+        /**
+     * Crea una sesión de prueba cuando no existe ninguna activa
+     */
+    private void crearSesionPrueba() {
+        Usuario usuarioPrueba = RepositorioDatos.cargarUsuarioPorNombre("mgonzalez");
+        if (usuarioPrueba != null) {
+            this.sesionActual = new Sesion(new Date(), usuarioPrueba);
+            System.out.println("✓ Sesión de prueba creada para: " + 
+                usuarioPrueba.getEmpleado().getNombre() + " " +
+                usuarioPrueba.getEmpleado().getApellido());
+        }
     }
 
     public void nuevaRevision() {
@@ -69,7 +97,6 @@ public class GestorRevision {
 
     private ArrayList<EventoSismico> buscarEventoSismicoAutoDetectado() {
         ArrayList<EventoSismico> eventosSismicosAutoDetectados = new ArrayList<>();
-        System.out.println("Buscando eventos sismicos auto detectados " + this.eventosSismicos.toString());
         for (EventoSismico evento : this.eventosSismicos) {
             // System.out.println(evento.getEstadoActual().sosAutoDetectado());
             if (evento.sosAutoDetectado()) {
@@ -112,6 +139,7 @@ public class GestorRevision {
     private void bloquearEventoSismico() {
         Empleado empleadoLogueado = this.obtenerAnalistaSismosLogueado();
         this.eventoSismicoSeleccionado.revisar(empleadoLogueado);
+        RepositorioDatos.actualizar(this.eventoSismicoSeleccionado);
     }
 
     private String tomarAlcance() {
@@ -172,6 +200,9 @@ public class GestorRevision {
     }
 
     private Empleado obtenerAnalistaSismosLogueado() {
+        if (this.sesionActual == null) {
+            throw new IllegalStateException("No hay sesión activa");
+        }
         return this.sesionActual.obtenerAnalistaSismosLogueado();
     }
 
@@ -210,6 +241,7 @@ public class GestorRevision {
     private void rechazarEvento() {
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
         this.eventoSismicoSeleccionado.rechazar(responsable);
+        RepositorioDatos.actualizar(this.eventoSismicoSeleccionado);
     }
 
     public boolean tomarAccionRechazarEvento() {
@@ -238,6 +270,7 @@ public class GestorRevision {
     private void confirmarEvento() {
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
         this.eventoSismicoSeleccionado.confirmar(responsable);
+        RepositorioDatos.actualizar(this.eventoSismicoSeleccionado);
     }
 
     // private Estado buscarEstadoConfirmado() {
@@ -287,6 +320,7 @@ public class GestorRevision {
     public void solicitarRevisionEvento() {
         Empleado responsable = this.obtenerAnalistaSismosLogueado();
         this.eventoSismicoSeleccionado.solicitarRevision(responsable);
+        RepositorioDatos.actualizar(this.eventoSismicoSeleccionado);
     }
 
     // private Estado buscarEstadoDerivadoAExperto() {

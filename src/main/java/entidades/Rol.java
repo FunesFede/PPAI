@@ -20,6 +20,8 @@ public class Rol {
     @Column(name = "nombre")
     private String nombre;
 
+    public Rol() {}
+
     public Rol(String descripcionRol, String nombre) {
         this.descripcionRol = descripcionRol;
         this.nombre = nombre;

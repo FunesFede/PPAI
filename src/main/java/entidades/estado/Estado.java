@@ -4,20 +4,30 @@ import java.util.Date;
 
 import entidades.Empleado;
 import entidades.EventoSismico;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import javafx.event.Event;
+import lombok.Data;
 
 
 @Entity
 @Table(name = "estado")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_estado", discriminatorType = DiscriminatorType.STRING)
+@Data
 public abstract class Estado {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "nombre_estado")
     protected String nombreEstado;
         
     public Estado() {
