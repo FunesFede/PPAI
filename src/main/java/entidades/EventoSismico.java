@@ -3,24 +3,74 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Date;
 
-import entidades.estado.Estado;
+import org.hibernate.annotations.ManyToAny;
 
+import entidades.estado.Estado;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "evento_sismico")
 public class EventoSismico {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "evento_sismico_id")
+    private Integer id;
+
+    @Column(name = "fecha_hora_fin")
     private Date fechaHoraFin;
+    @Column(name = "fecha_hora_ocurrencia")
     private Date fechaHoraOcurrencia;
+    @Column(name = "latitud_epicentro")
     private double latitudEpicentro;
+    @Column(name = "latitud_hipocentro")
     private double latitudHipocentro;
+    @Column(name = "longitud_epicentro")
     private double longitudEpicentro;
+    @Column(name = "longitud_hipocentro")
     private double longitudHipocentro;
+    @Column(name = "valor_magnitud")
     private double valorMagnitud;
 
+    @ManyToOne
+    @JoinColumn(name = "clasificacion_sismo_id")
     private ClasificacionSismo clasificacion;
+
+    @ManyToOne
+    @JoinColumn(name = "magnitud_ritcher_id")
     private MagnitudRitcher magnitud;
+
+    @ManyToOne
+    @JoinColumn(name = "origen_de_generacion_id")
     private OrigenDeGeneracion origenGeneracion;
+
+    @ManyToOne
+    @JoinColumn(name = "alcance_sismo_id")
     private AlcanceSismo alcanceSismo;
+
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
     private Estado estadoActual;
+
+    @OneToMany
+    @JoinColumn(name = "evento_sismico_id")
     private ArrayList<CambioEstado> cambioEstado;
+
+    @OneToMany
+    @JoinColumn(name = "evento_sismico_id")
     private ArrayList<SerieTemporal> seriesTemporales;
+
+    @ManyToOne
+    @JoinColumn(name = "empleado_id")
     private Empleado analistaSuperior;
 
     public EventoSismico(Date fechaHoraOcurrencia, double latitudEpicentro, double latitudHipocentro, double longitudEpicentro, double longitudHipocentro, double valorMagnitud, ClasificacionSismo clasificacion, Estado estadoActual, OrigenDeGeneracion origenGeneracion, AlcanceSismo alcanceSismo) {

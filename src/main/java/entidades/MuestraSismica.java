@@ -3,8 +3,30 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Table(name = "muestra_sismica")
+@Data
 public class MuestraSismica {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "muestra_sismica_id")
+    private Integer id;
+
+    @Column(name = "fecha_hora_muestra")
     private Date fechaHoraMuestra;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "muestra_sismica_id")
     private ArrayList<DetalleMuestraSismica> detalleMuestraSismica;
 
     public MuestraSismica(Date fechaHoraMuestra) {
@@ -13,7 +35,6 @@ public class MuestraSismica {
         detalleMuestraSismica.add(new DetalleMuestraSismica(45.5, new TipoDeDato("Velocidad Onda", "m/s", 30.0)));
         detalleMuestraSismica.add(new DetalleMuestraSismica(500.0, new TipoDeDato("Frecuencia Onda", "mhz", 30.0)));
         detalleMuestraSismica.add(new DetalleMuestraSismica(155.0, new TipoDeDato("Longitud", "m", 30.0)));
-
     }
 
     public void crearDetalleMuestra(Double valor, TipoDeDato tipoDeDato) {

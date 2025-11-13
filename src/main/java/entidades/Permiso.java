@@ -1,7 +1,24 @@
 package entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "permiso")
 public class Permiso {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "permiso_id")
+    private Integer id;
+
+    @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "nombre")
     private String nombre;
 
     public Permiso(String descripcion, String nombre) {

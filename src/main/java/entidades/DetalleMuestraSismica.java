@@ -1,7 +1,30 @@
 package entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "detalle_muestra_sismica")
 public class DetalleMuestraSismica {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "detalle_muestra_sismica_id")
+    private Integer id;
+
+    @Column(name = "valor")
     private Double valor;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_de_dato_id")
     private TipoDeDato tipoDeDato;
 
     public DetalleMuestraSismica(Double valor, TipoDeDato tipoDeDato) {

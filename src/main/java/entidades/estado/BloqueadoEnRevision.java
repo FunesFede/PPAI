@@ -6,7 +6,11 @@ import java.util.Date;
 import entidades.CambioEstado;
 import entidades.Empleado;
 import entidades.EventoSismico;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("BLOQUEADO_EN_REVISION")
 public class BloqueadoEnRevision extends Estado {
 
     public BloqueadoEnRevision() {

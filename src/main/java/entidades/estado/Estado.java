@@ -4,9 +4,20 @@ import java.util.Date;
 
 import entidades.Empleado;
 import entidades.EventoSismico;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import javafx.event.Event;
 
-public class Estado {
+
+@Entity
+@Table(name = "estado")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_estado", discriminatorType = DiscriminatorType.STRING)
+public abstract class Estado {
     protected String nombreEstado;
         
     public Estado() {

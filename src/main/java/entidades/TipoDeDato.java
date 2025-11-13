@@ -1,8 +1,26 @@
 package entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Table(name = "tipo_de_dato")
+@Data
 public class TipoDeDato {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tipo_de_dato_id")
+    private Integer id;
+
+    @Column(name = "denominacion")
     private String denominacion;
+    @Column(name = "nombre_unidad_medida")
     private String nombreUnidadMedida;
+    @Column(name = "valor_umbral")
     private Double valorUmbral;
 
     public TipoDeDato(String denominacion, String nombreUnidadMedida, Double valorUmbral) {

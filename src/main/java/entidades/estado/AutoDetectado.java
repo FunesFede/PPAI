@@ -6,7 +6,11 @@ import java.util.Date;
 import entidades.CambioEstado;
 import entidades.Empleado;
 import entidades.EventoSismico;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("AUTO_DETECTADO")
 public class AutoDetectado extends Estado {
 
     public AutoDetectado() {
